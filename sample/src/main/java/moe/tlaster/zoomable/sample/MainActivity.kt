@@ -22,42 +22,7 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            Sample()
-        }
-    }
-}
-
-@OptIn(ExperimentalPagerApi::class)
-@Composable
-private fun Sample() {
-    val pagerState = rememberPagerState(pageCount = 10)
-    HorizontalPager(state = pagerState) { page ->
-        val state = rememberZoomableState(
-            minScale = 2f
-        )
-        var enable by remember {
-            mutableStateOf(true)
-        }
-        Surface {
-            Box {
-                Zoomable(
-                    state = state,
-                    enable = enable,
-                    doubleTapScale = {
-                        if (state.scale > 32f) {
-                            state.minScale
-                        } else {
-                            state.scale * 2
-                        }
-                    }
-                ) {
-                    // Our page content
-                    Text(
-                        text = "Page: $page",
-                    )
-                }
-                Checkbox(checked = enable, onCheckedChange = { enable = it })
-            }
+            NormalSample()
         }
     }
 }
