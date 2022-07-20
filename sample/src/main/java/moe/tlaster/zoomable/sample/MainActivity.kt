@@ -5,6 +5,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.Box
 import androidx.compose.material.Checkbox
+import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
@@ -37,24 +38,26 @@ private fun Sample() {
         var enable by remember {
             mutableStateOf(true)
         }
-        Box {
-            Zoomable(
-                state = state,
-                enable = enable,
-                doubleTapScale = {
-                    if (state.scale > 32f) {
-                        state.minScale
-                    } else {
-                        state.scale * 2
+        Surface {
+            Box {
+                Zoomable(
+                    state = state,
+                    enable = enable,
+                    doubleTapScale = {
+                        if (state.scale > 32f) {
+                            state.minScale
+                        } else {
+                            state.scale * 2
+                        }
                     }
+                ) {
+                    // Our page content
+                    Text(
+                        text = "Page: $page",
+                    )
                 }
-            ) {
-                // Our page content
-                Text(
-                    text = "Page: $page",
-                )
+                Checkbox(checked = enable, onCheckedChange = { enable = it })
             }
-            Checkbox(checked = enable, onCheckedChange = { enable = it })
         }
     }
 }
