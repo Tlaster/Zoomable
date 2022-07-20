@@ -25,6 +25,7 @@ import kotlinx.coroutines.launch
  * @param state the state object to be used to observe the [Zoomable] state.
  * @param modifier the modifier to apply to this layout.
  * @param doubleTapScale a function called on double tap gesture, will scale to returned value.
+ * @param finishDragNotConsumeDirection the direction does not consume touch when scrolling to the edge.
  * @param content a block which describes the content.
  */
 @Composable
