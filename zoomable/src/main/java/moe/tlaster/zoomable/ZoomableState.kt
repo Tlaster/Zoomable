@@ -155,6 +155,38 @@ class ZoomableState(
         velocityTracker.resetTracking()
     }
 
+    internal fun isHorizontalDragFinis(dragDistance: Offset): Boolean {
+        val lowerBounds = _translateX.lowerBound ?: return false
+        val upperBounds = _translateX.upperBound ?: return false
+        if (lowerBounds == 0f && upperBounds == 0f) return true
+
+        val newPosition = _translateX.value + dragDistance.x
+        if (newPosition <= lowerBounds) {
+            return true
+        }
+
+        if (newPosition >= upperBounds) {
+            return true
+        }
+        return false
+    }
+
+    internal fun isVerticalDragFinish(dragDistance: Offset): Boolean {
+        val lowerBounds = _translateY.lowerBound ?: return false
+        val upperBounds = _translateY.upperBound ?: return false
+        if (lowerBounds == 0f && upperBounds == 0f) return true
+
+        val newPosition = _translateY.value + dragDistance.y
+        if (newPosition <= lowerBounds) {
+            return true
+        }
+
+        if (newPosition >= upperBounds) {
+            return true
+        }
+        return false
+    }
+
     override fun toString(): String = "ZoomableState(" +
         "minScale=$minScale, " +
         "maxScale=$maxScale, " +
