@@ -14,6 +14,7 @@ import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.rememberPagerState
 import moe.tlaster.zoomable.Zoomable
+import moe.tlaster.zoomable.ZoomableConsumeDirection
 import moe.tlaster.zoomable.rememberZoomableState
 
 @OptIn(ExperimentalPagerApi::class)
@@ -35,7 +36,8 @@ fun HorizontalPagerSample() {
                         } else {
                             state.scale * 2
                         }
-                    }
+                    },
+                    finishDragNotConsumeDirection = ZoomableConsumeDirection.Horizontal,
                 ) {
                     Text(
                         modifier = Modifier

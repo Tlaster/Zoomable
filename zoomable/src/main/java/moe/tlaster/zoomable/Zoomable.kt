@@ -33,6 +33,7 @@ fun Zoomable(
     modifier: Modifier = Modifier,
     enable: Boolean = true,
     doubleTapScale: (() -> Float)? = null,
+    finishDragNotConsumeDirection: ZoomableConsumeDirection? = null,
     content: @Composable BoxScope.() -> Unit,
 ) {
     val scope = rememberCoroutineScope()
@@ -77,8 +78,32 @@ fun Zoomable(
                 .pointerInput(Unit) {
                     detectDrag(
                         onDrag = { change, dragAmount ->
+                            if (enable) {
+                                when (finishDragNotConsumeDirection) {
+                                    ZoomableConsumeDirection.Horizontal -> {
+                                        if (
+                                            state
+                                                .isHorizontalDragFinis(dragAmount)
+                                                .not()
+                                        ) {
+                                            change.consumePositionChange()
+                                        }
+                                    }
+                                    ZoomableConsumeDirection.Vertical -> {
+                                        if (
+                                            state
+                                                .isVerticalDragFinish(dragAmount)
+                                                .not()
+                                        ) {
+                                            change.consumePositionChange()
+                                        }
+                                    }
+                                    null -> {
+                                        change.consumePositionChange()
+                                    }
+                                }
+                            }
                             if (state.zooming && enable) {
-                                change.consumePositionChange()
                                 scope.launch {
                                     state.drag(dragAmount)
                                     state.addPosition(
@@ -130,6 +155,11 @@ fun Zoomable(
     }
 }
 
+enum class ZoomableConsumeDirection {
+    Horizontal,
+    Vertical,
+    ;
+}
 
 private suspend fun PointerInputScope.detectDrag(
     onDragStart: (Offset) -> Unit = { },
